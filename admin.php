@@ -165,7 +165,7 @@ p{
 display: none; 
 border-radius: 25px;
 width: 60%;
-background-color: rgba(255, 192, 203, 0.6);
+background-color: rgba(0, 0, 0, 0.5);
 }
 @media screen and (max-width: 800px) {
   .container{
@@ -196,6 +196,12 @@ width: 100%;
   text-decoration: none;
   cursor: pointer;
   border-radius: 25px;
+}
+h2{
+  color:white;
+}
+label{
+  color:white;
 }
 
 .btnx:hover {opacity: 1}
@@ -256,10 +262,13 @@ width: 100%;
     <label>Naslov objave</label>
   	  <input placeholder="Unesi naslov objave" type="text" name="title" class="form-control" value="<?php echo $title; ?>">
     </div>
-    
     <div class="form-group">
   	  <label>Opis</label>
-  	  <textarea class="form-control" placeholder="Unesi opis" type="text"name="content" cols="30" rows="10" value="<?php echo $content; ?>"></textarea>
+  	  <textarea class="form-control" placeholder="Unesi opis" type="text" name="content" cols="30" rows="5" value="<?php echo $content; ?>"></textarea>
+	  </div>
+    <div class="form-group">
+  	  <label>Recenzija:</label>
+  	  <textarea class="form-control" placeholder="Unesi recenziju" type="text" name="review" cols="30" rows="20" value="<?php echo $review; ?>"></textarea>
 	  </div>
     <div class="form-group">
     <button type="submit" class="btn" name="add">Objavi</button>
@@ -307,12 +316,12 @@ width: 100%;
   	  <input placeholder="Unesi naslov objave" type="text" name="title" class="form-control" value="<?php echo "" . $row2['title'] . ""?>">
     </div>
     <div class="form-group">
-    <label>Šifra bookmarkera</label>
-  	  <input placeholder="Unesi šifru" type="text" name="date" class="form-control" value="<?php echo "" . $row2['date'] . ""?>">
-    </div>
-    <div class="form-group">
   	  <label>Opis</label>
-  	  <textarea class="form-control" placeholder="Unesi opis" type="text" name="content" cols="30" rows="10"><?php echo "" . $row2['content'] . ""?></textarea>
+  	  <textarea class="form-control" placeholder="Unesi opis" type="text" name="content" cols="30" rows="5"><?php echo "" . $row2['content'] . ""?></textarea>
+	  </div>
+    <div class="form-group">
+  	  <label>Recenzija</label>
+  	  <textarea class="form-control" placeholder="Unesi recenziju" type="text" name="content" cols="30" rows="20"><?php echo "" . $row2['review'] . ""?></textarea>
 	  </div>
     <div class="form-group">
     <button type="submit" class="btn" name="edit">Izmjeni</button>
@@ -383,7 +392,7 @@ echo"</table>
 while($row6 = mysqli_fetch_assoc($results6))
 {
 echo"
-<div class='form-group container' style='background-color: rgba(255, 192, 203, 0.6); border-radius: 25px; display:block; width:100%;'>
+<div class='form-group container' style='background-color: rgba(255, 192, 203, 0.2); border-radius: 25px; display:block; width:100%;'>
 <br>
 <div class='form-group'>
 <label>Ime: " . $row6['name'] . "</label>

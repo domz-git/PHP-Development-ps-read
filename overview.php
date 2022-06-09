@@ -14,23 +14,6 @@ $message="";
 
   $query = "SELECT * FROM post ORDER BY post_id DESC";
   $results = mysqli_query($db, $query);
-
-
-  /////////////// MESSAGE ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-if (isset($_POST['send'])) {
-  // receive all input values from the form
-  $name = mysqli_real_escape_string($db, $_POST['name']);
-  $email = mysqli_real_escape_string($db, $_POST['email']);
-  $message = mysqli_real_escape_string($db, $_POST['message']);
-  $date = date("d/m/Y");
-
-    $query = "INSERT INTO message (name, email, message, date) VALUES ('$name','$email', '$message', '$date')";
-    mysqli_query($db, $query);
-    header('location: index.php');
-
-}
 ?>
 
 
@@ -69,6 +52,8 @@ body, html {
 .bgimg-1 {
   background-image: url('images/image2.jpg');
   min-height: 40%;
+  background-color: rgba(255, 255, 255, 0.3);
+  background-blend-mode: lighten
 }
 
 .w3-wide {letter-spacing: 10px;}
@@ -78,7 +63,7 @@ body, html {
 @media only screen and (max-device-width: 500px) {
   .bgimg-1, .bgimg-2, .bgimg-3 {
     background-attachment: scroll;
-    min-height: 250px;
+    min-height: 33%;
   }
 }
 .button {
@@ -144,7 +129,12 @@ pre{
   text-align: justify;
   padding: 10px 10px 10px 10px;
 }
-#nava{
+#nava, #nava1, #nava2,#nava3{
+  text-decoration:none;
+  color:white;
+  background-color:none;
+}
+#navaSmol{
   text-decoration:none;
   color:black;
 }
@@ -222,32 +212,35 @@ p{
   color: lightslategrey;
   font-size: 13px;
 }
+#myNavbar2{
+  background-color:rgba(0, 0, 0, 0.2);
+}
 </style>
 </head>
 <body>
 
 <!-- Navbar (sit on top) -->
-<div class="w3-top">
+<div class="w3-top" id="myNavbar2">
   <div class="w3-bar" id="myNavbar">
     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
       <i class="fa fa-bars"></i>
     </a>
-    <a href="index.php" id="nava" class="w3-bar-item w3-button"> PS. READ</a>
+    <a href="index.php" id="nava1" class="w3-bar-item w3-button"> PS. READ</a>
     
-    <a href="index.php#about" id="nava" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RECENZIJE</a>
-    <a href="index.php#contact" id="nava" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> KONTAKT</a>
+    <a href="index.php#about" id="nava2" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RECENZIJE</a>
+    <a href="index.php#contact" id="nava3" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> KONTAKT</a>
     
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-    <a href="index.php#about" id="nava" class="w3-bar-item w3-button" onclick="toggleFunction()"> RECENZIJE</a>
-    <a href="index.php#contact" id="nava" class="w3-bar-item w3-button" onclick="toggleFunction()"> KONTAKT</a>
+    <a href="index.php#about" id="navaSmol" class="w3-bar-item w3-button" onclick="toggleFunction()"> RECENZIJE</a>
+    <a href="index.php#contact" id="navaSmol" class="w3-bar-item w3-button" onclick="toggleFunction()"> KONTAKT</a>
   </div>
 </div>
 
 <!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+<div class="bgimg-1 w3-display-container" id="home">
   <div class="w3-display-middle" style="white-space:nowrap;">
     <span class="w3-center w3-padding-large w3-xlarge w3-wide w3-animate-opacity"> <img src="images/image.png" alt="Avatar" style="width:100%"> </span>
   </div>
@@ -270,44 +263,6 @@ fdkgjhkdfghkjfd</pre>"
   </div>
 </div>
 
-
-<!-- Container (Contact Section) -->
-<div class="w3-content w3-container w3-padding-64" id="contact">
-  <p class="w3-center"><em>Kontaktiraj nas!</em></p>
-
-  <div class="w3-row w3-padding-32 w3-section">
-    <div class="w3-col m4 w3-container">
-      <img src="images/contact.jpg" class="w3-image w3-round" style="width:100%">
-    </div>
-    <div class="w3-col m8 w3-panel">
-      <form method="post">
-        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-          <div class="w3-half">
-            <input class="w3-input w3-border" type="text" placeholder="Ime" name="name"required name="Name">
-          </div>
-          <div class="w3-half">
-            <input class="w3-input w3-border" type="email" placeholder="Email" name="email"required name="Email">
-          </div>
-        </div>
-        
-        <textarea class="w3-input w3-border" type="text" placeholder="Ovdje upiši svoju poruku" name ="message" required name="Message" cols="30" rows="10"></textarea>
-        <button class="w3-button w3-black w3-right w3-section" onclick="fu()" name="send" type="submit">
-          <i class="fa fa-paper-plane"></i> POŠALJI
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- INFORMACIJE-->
-  <!-- Container (Contact Section) 
-  <div class="w3-content w3-container w3-padding-64" id="info">
-            <h3 class="w3-center">Dodatne informacije</h3>
-            <p>*U cijenu bookmarkera nije uračunata cijena poštarine.</p>
-            <p>Trošak poštarine može ovisiti o državi i obujmu narudžbe te se obračunava po narudžbi.</p>
-  </div>
-        -->
-</div>
-
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">
   <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
@@ -327,10 +282,20 @@ fdkgjhkdfghkjfd</pre>"
 window.onscroll = function() {myFunction()};
 function myFunction() {
     var navbar = document.getElementById("myNavbar");
+    var nava1 = document.getElementById("nava1");
+    var nava2 = document.getElementById("nava2");
+    var nava3 = document.getElementById("nava3");
+    var navbar2 = document.getElementById("myNavbar2");
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+        nava1.style.color = "black";
+        nava2.style.color = "black";
+        nava3.style.color = "black";
     } else {
         navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+        nava1.style.color = "white";
+        nava2.style.color = "white";
+        nava3.style.color = "white";
     }
 }
 

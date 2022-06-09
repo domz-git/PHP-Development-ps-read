@@ -68,7 +68,9 @@ body, html {
 /* First image (Logo. Full height) */
 .bgimg-1 {
   background-image: url('images/panel.jpg');
+  background-color: rgba(255, 255, 255, 0.3);
   min-height: 80%;
+  background-blend-mode: lighten
 }
 
 .w3-wide {letter-spacing: 10px;}
@@ -78,7 +80,7 @@ body, html {
 @media only screen and (max-device-width: 500px) {
   .bgimg-1, .bgimg-2, .bgimg-3 {
     background-attachment: scroll;
-    min-height: 250px;
+    min-height: 33%;
   }
 }
 .button {
@@ -144,7 +146,11 @@ pre{
   text-align: justify;
   padding: 10px 10px 10px 10px;
 }
-#nava{
+#nava, #nava1, #nava2,#nava3{
+  text-decoration:none;
+  color:white;
+}
+#navaSmol{
   text-decoration:none;
   color:black;
 }
@@ -177,9 +183,6 @@ a{
     margin-bottom: 20px;
   }
 }
- 
-}
-
 /* Style the counter cards */
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -232,33 +235,27 @@ p{
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
-  <div class="w3-bar" id="myNavbar">
+  <div class="w3-bar" id="myNavbar" >
     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
       <i class="fa fa-bars"></i>
     </a>
-    <a href="#home" id="nava" class="w3-bar-item w3-button"> PS. READ</a>
-    
-    
-    <a href="#about" id="nava" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RECENZIJE</a>
-    <a href="#contact" id="nava" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> KONTAKT</a>
-    <!-- <a href="#info" id="nava" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-info-circle"></i> INFORMACIJE</a> -->
-
+    <a href="#home" id="nava1" class="w3-bar-item w3-button"> PS. READ</a>
+    <a href="#about" id="nava2" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RECENZIJE</a>
+    <a href="#contact" id="nava3" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> KONTAKT</a>
     <input type="text" id="myFilter" onkeyup="myFunctionFilter()" placeholder="Pretraži recenzije...">
-    
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-    <a href="#about" id="nava" class="w3-bar-item w3-button" onclick="toggleFunction()"> RECENZIJE</a>
-    <a href="#contact" id="nava" class="w3-bar-item w3-button" onclick="toggleFunction()"> KONTAKT</a>
-    <!-- <a href="#info" id="nava" class="w3-bar-item w3-button" onclick="toggleFunction()"> INFORMACIJE</a> -->
+    <a href="#about" id="navaSmol" class="w3-bar-item w3-button" onclick="toggleFunction()"> RECENZIJE</a>
+    <a href="#contact" id="navaSmol" class="w3-bar-item w3-button" onclick="toggleFunction()"> KONTAKT</a>
   </div>
 </div>
 
 <!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+<div class="bgimg-1 w3-display-container" id="home">
   <div class="w3-display-middle" style="white-space:nowrap;">
-    <span class="w3-center w3-padding-large w3-xlarge w3-wide w3-animate-opacity"> <img src="images/image.png" alt="Avatar" style="width:100%"> </span>
+    <span class="w3-center w3-padding-large w3-xlarge w3-wide w3-animate-opacity"> <img src="images/image.png" alt="Avatar" style="width:100%;"> </span>
   </div>
 </div>
 
@@ -273,21 +270,21 @@ p{
     echo"
     
     <div class='column'>
-    <div class='card'>
-        
-        <img src='images/" . $row['image'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
-        
-  <div class='container'>
-    <div class='card_container'>
-    <h4 class='card-title' style='text-align: center;'><b>" . $row['title'] . "</b></h4>
-    <p style='text-align: center;'><strong>" . $row['date'] . "</strong></p>
-    <pre>" . $row['content'] . "</pre>
-    <a href='#contact' id='nava'><button class='w3-button w3-black w3-right w3-section'>
-          <i class='fa fa-paper-plane'></i> PROČITAJ VIŠE
-        </button></a>
+      <div class='card'>
+          <a href=overview.php?id=".$row['post_id'].">
+          <img src='images/" . $row['image'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
+          </a>
+        <div class='container'>
+          <div class='card_container'>
+              <h4 class='card-title' style='text-align: center;'><b>" . $row['title'] . "</b></h4>
+              <p style='text-align: center;'><strong>" . $row['date'] . "</strong></p>
+              <pre>" . $row['content'] . "</pre>
+              <a href=overview.php?id=".$row['post_id']." id='nava'><button class='w3-button w3-black w3-right w3-section'>
+              <i class='fa fa-paper-plane'></i> PROČITAJ VIŠE
+            </button></a>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
     </div>  
   ";
 }
@@ -355,10 +352,21 @@ echo"</div>";
 window.onscroll = function() {myFunction()};
 function myFunction() {
     var navbar = document.getElementById("myNavbar");
+    var nava1 = document.getElementById("nava1");
+    var nava2 = document.getElementById("nava2");
+    var nava3 = document.getElementById("nava3");
+    
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+        
+        nava1.style.color = "black";
+        nava2.style.color = "black";
+        nava3.style.color = "black";
     } else {
         navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+        nava1.style.color = "white";
+        nava2.style.color = "white";
+        nava3.style.color = "white";
     }
 }
 
