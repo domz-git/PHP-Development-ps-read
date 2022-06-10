@@ -322,15 +322,6 @@ echo"</div>";
       </form>
     </div>
   </div>
-
-  <!-- INFORMACIJE-->
-  <!-- Container (Contact Section) 
-  <div class="w3-content w3-container w3-padding-64" id="info">
-            <h3 class="w3-center">Dodatne informacije</h3>
-            <p>*U cijenu bookmarkera nije uračunata cijena poštarine.</p>
-            <p>Trošak poštarine može ovisiti o državi i obujmu narudžbe te se obračunava po narudžbi.</p>
-  </div>
-        -->
 </div>
 
 <!-- Footer -->

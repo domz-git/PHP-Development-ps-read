@@ -80,10 +80,9 @@ if (isset($_POST['edit'])) {
   $image = mysqli_real_escape_string($db, $_POST['image']);
   $title = mysqli_real_escape_string($db, $_POST['title']);
   $content = mysqli_real_escape_string($db, $_POST['content']);
-  $date = mysqli_real_escape_string($db, $_POST['date']);
 
   $query = "UPDATE post 
-            SET image ='$image', title='$title', content='$content', date='$date'
+            SET image ='$image', title='$title', content='$content'
             WHERE post_id = '$id' ";
             
   mysqli_query($db, $query);
@@ -114,6 +113,13 @@ $query6 = "SELECT * FROM message ORDER BY id DESC";
 $results6 = mysqli_query($db, $query6);
 
 
+/////////// IMAGES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$query7 = "SELECT * FROM image ORDER BY image_id DESC";
+$results7 = mysqli_query($db, $query7);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,6 +127,9 @@ $results6 = mysqli_query($db, $query6);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <title>Admin panel</title>
@@ -205,8 +214,51 @@ label{
 }
 
 .btnx:hover {opacity: 1}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 0 0 10px;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+}
+img {
+  border-radius: 5px 5px 0 0;
+}
+
+
 </style>
 </head>
+
 <body>
 <nav class="navbar-inverse">
   <div class="container-fluid">
@@ -230,6 +282,8 @@ label{
         </li>
         <li><a href="#" onclick="show_mess()">Poruke</a></li>
         <li><a href="#" onclick="show_id()">ID objava</a></li>
+        <li><a href="#" onclick="show_image()">Slike</a></li>
+        <li><a href="#" onclick="show_galery()">Galerija</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="admin.php?logout='1'"><span class="glyphicon glyphicon-log-in"></span> Odjavi se</a></li>
@@ -242,16 +296,6 @@ label{
 <div id="show_add" class="container">
 <h2>Nova objava</h2>
 <hr>
-<form action="upload.php" method="post" enctype="multipart/form-data">
-<div class="form-group">
-  	  <label>Odaberi sliku:</label>
-  	  <input type="file" name="fileToUpload" class="form-control" id="fileToUpload">
-    </div>
-    <div class="form-group">
-    <button type="submit" class="btn" name="add">Objavi</button>
-  	</div>
-
-</form>
 <form method="post">
 <?php include('errors.php'); ?>
     <div class="form-group">
@@ -292,15 +336,6 @@ label{
 <button type="submit" class="btn" name="search_edit">Pretraži</button>
 </div>
 </form>
-<form action="upload.php" method="post" enctype="multipart/form-data">
-<div class="form-group">
-  	  <label>Odaberi sliku:</label>
-  	  <input type="file" name="fileToUpload" class="form-control" id="fileToUpload">
-    </div>
-    <div class="form-group">
-    <button type="submit" class="btn" name="add">Objavi</button>
-  	</div>
-</form>
 <form method="post">
 <?php include('errors.php'); ?>
 <div class="form-group">
@@ -321,7 +356,7 @@ label{
 	  </div>
     <div class="form-group">
   	  <label>Recenzija</label>
-  	  <textarea class="form-control" placeholder="Unesi recenziju" type="text" name="content" cols="30" rows="20"><?php echo "" . $row2['review'] . ""?></textarea>
+  	  <textarea class="form-control" placeholder="Unesi recenziju" type="text" name="review" cols="30" rows="20"><?php echo "" . $row2['review'] . ""?></textarea>
 	  </div>
     <div class="form-group">
     <button type="submit" class="btn" name="edit">Izmjeni</button>
@@ -420,6 +455,68 @@ echo"
 
 
 
+<div id="show_image" class="container">
+<h2>Slike</h2>
+  <hr>
+  <form action="upload.php" method="post" enctype="multipart/form-data">
+<div class="form-group">
+  	  <label>Odaberi sliku:</label>
+  	  <input type="file" name="fileToUpload" class="form-control" id="fileToUpload">
+    </div>
+    <div class="form-group">
+    <button type="submit" class="btn" name="add">Objavi</button>
+  	</div>
+</form>
+<form method="post">
+    <div class="form-group">
+    <label>Ime slike</label>
+  	  <input placeholder="Unesi ime slike" type="text" name="image" class="form-control" value="<?php echo "" . $row2['image'] . ""?>">
+    </div>
+    <div class="form-group">
+    <button type="submit" class="btn" name="edit">Dodaj</button>
+  	</div>
+</form>
+</div>
+
+
+
+<div id="show_galery" class="container">
+<h2>Galerija</h2>
+  <hr>
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Pretraži slike...">
+  <?php
+  echo "
+  <div id='myItems' class='row'>
+  ";
+  while( $row7 = mysqli_fetch_array($results7))
+  {
+    echo"
+    
+    <div class='column'>
+      <div class='card'>
+          
+          <img src='images/" . $row7['name'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
+          
+        <div class='container'>
+          <div class='card_container'>
+              <h4 class='card-title' style='text-align: center;'><b>" . $row7['name'] . "</b></h4>
+             
+          </div>
+        </div>
+      </div>
+    </div>  
+  ";
+}
+echo"</div>";
+?>
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -450,6 +547,14 @@ if(someVarName == "show_mess"){
     var x = document.getElementById("show_mess");
     x.style.display = "block";
 }
+if(someVarName == "show_image"){
+    var x = document.getElementById("show_image");
+    x.style.display = "block";
+}
+if(someVarName == "show_galery"){
+    var x = document.getElementById("show_galery");
+    x.style.display = "block";
+}
 function show_add() {
     
     var someVarName = localStorage.getItem("someVarKey");
@@ -459,13 +564,16 @@ function show_add() {
     var z = document.getElementById("show_remove");
     var x3 = document.getElementById("show_id");
     var x4 = document.getElementById("show_mess");
-    
+    var x5 = document.getElementById("show_image");
+    var x6 = document.getElementById("show_galery");
     
       x.style.display = "block";
       y.style.display = "none";
       z.style.display = "none";
       x3.style.display = "none";
       x4.style.display = "none";
+      x5.style.display = "none";
+      x6.style.display = "none";
     
       window.scrollBy(0, -1000);
       
@@ -481,14 +589,17 @@ function show_add() {
     var z = document.getElementById("show_remove");
     var x3 = document.getElementById("show_id");
     var x4 = document.getElementById("show_mess");
-    
-    
+    var x5 = document.getElementById("show_image");
+    var x6 = document.getElementById("show_galery");
+
       x.style.display = "block";
       y.style.display = "none";
       z.style.display = "none";
       x3.style.display = "none";
       x4.style.display = "none";
-    
+      x5.style.display = "none";
+      x6.style.display = "none";
+
       window.scrollBy(0, -1000);
       
       someVarName = "show_edit";
@@ -503,15 +614,16 @@ function show_add() {
     var z = document.getElementById("show_edit");
     var x3 = document.getElementById("show_id");
     var x4 = document.getElementById("show_mess");
-    
-    
+    var x5 = document.getElementById("show_image");
+    var x6 = document.getElementById("show_galery");
     
       x.style.display = "block";
       y.style.display = "none";
       z.style.display = "none";
       x3.style.display = "none";
       x4.style.display = "none";
-     
+      x5.style.display = "none";
+      x6.style.display = "none";
     
       window.scrollBy(0, -1000);
       
@@ -528,15 +640,17 @@ function show_add() {
     var z = document.getElementById("show_edit");
     var x3 = document.getElementById("show_remove");
     var x4 = document.getElementById("show_mess");
-    
-    
+    var x5 = document.getElementById("show_image");
+    var x6 = document.getElementById("show_galery");
     
       x.style.display = "block";
       y.style.display = "none";
       z.style.display = "none";
       x3.style.display = "none";
       x4.style.display = "none";
-    
+      x5.style.display = "none";
+      x6.style.display = "none";
+
       window.scrollBy(0, -1000);
       
       someVarName = "show_id";
@@ -551,7 +665,58 @@ function show_add() {
     var z = document.getElementById("show_edit");
     var x3 = document.getElementById("show_remove");
     var x4 = document.getElementById("show_id");
+    var x5 = document.getElementById("show_image");
+    var x6 = document.getElementById("show_galery");
     
+      x.style.display = "block";
+      y.style.display = "none";
+      z.style.display = "none";
+      x3.style.display = "none";
+      x4.style.display = "none";
+      x5.style.display = "none";
+      x6.style.display = "none";
+    
+      window.scrollBy(0, -1000);
+      
+      someVarName = "show_mess";
+      localStorage.setItem("someVarKey", someVarName);
+    }
+    function show_image() {
+    
+    var someVarName = localStorage.getItem("someVarKey");
+    
+    var x = document.getElementById("show_image");
+    var y = document.getElementById("show_add");
+    var z = document.getElementById("show_edit");
+    var x3 = document.getElementById("show_remove");
+    var x4 = document.getElementById("show_mess");
+    var x5 = document.getElementById("show_id");
+    var x6 = document.getElementById("show_galery");
+    
+      x.style.display = "block";
+      y.style.display = "none";
+      z.style.display = "none";
+      x3.style.display = "none";
+      x4.style.display = "none";
+      x5.style.display = "none";
+      x6.style.display = "none";
+    
+      window.scrollBy(0, -1000);
+      
+      someVarName = "show_image";
+      localStorage.setItem("someVarKey", someVarName);
+    }
+    function show_galery() {
+    
+    var someVarName = localStorage.getItem("someVarKey");
+    
+    var x = document.getElementById("show_galery");
+    var y = document.getElementById("show_add");
+    var z = document.getElementById("show_edit");
+    var x3 = document.getElementById("show_remove");
+    var x4 = document.getElementById("show_mess");
+    var x5 = document.getElementById("show_id");
+    var x6 = document.getElementById("show_image");
     
     
       x.style.display = "block";
@@ -559,11 +724,12 @@ function show_add() {
       z.style.display = "none";
       x3.style.display = "none";
       x4.style.display = "none";
-     
+      x5.style.display = "none";
+      x6.style.display = "none";
     
       window.scrollBy(0, -1000);
       
-      someVarName = "show_mess";
+      someVarName = "show_galery";
       localStorage.setItem("someVarKey", someVarName);
     }
 
