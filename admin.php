@@ -20,6 +20,7 @@ $content="";
 $item="";
 $id="";
 $date_var="";
+$image_upload="";
 $errors = array(); 
 $db = mysqli_connect('localhost', 'root', '', 'psread');
 
@@ -34,6 +35,7 @@ if (isset($_POST['add'])) {
   $image = mysqli_real_escape_string($db, $_POST['image']);
   $title = mysqli_real_escape_string($db, $_POST['title']);
   $content = mysqli_real_escape_string($db, $_POST['content']);
+  $review = mysqli_real_escape_string($db, $_POST['review']);
   $date = date("d/m/Y");
 
 
@@ -51,10 +53,11 @@ if (isset($_POST['add'])) {
   if (empty($image)) { array_push($errors, "Slika obavezna!"); }
   if (empty($title)) { array_push($errors, "Naslov obavezan!"); }
   if (empty($content)) { array_push($errors, "Sadržaj obavezan!"); }
+  if (empty($review)) { array_push($errors, "Recenzija obavezna!"); }
 
   
   if (count($errors) == 0) {
-    $query = "INSERT INTO post (image, title, content, date) VALUES ('$image','$title', '$content', '$date')";
+    $query = "INSERT INTO post (image, title, content, date, review) VALUES ('$image','$title', '$content', '$date', '$review')";
     mysqli_query($db, $query);
     header('location: admin.php');
   }
@@ -80,9 +83,10 @@ if (isset($_POST['edit'])) {
   $image = mysqli_real_escape_string($db, $_POST['image']);
   $title = mysqli_real_escape_string($db, $_POST['title']);
   $content = mysqli_real_escape_string($db, $_POST['content']);
+  $review = mysqli_real_escape_string($db, $_POST['review']);
 
   $query = "UPDATE post 
-            SET image ='$image', title='$title', content='$content'
+            SET image ='$image', title='$title', content='$content', review='$review'
             WHERE post_id = '$id' ";
             
   mysqli_query($db, $query);
@@ -118,6 +122,36 @@ $results6 = mysqli_query($db, $query6);
 
 $query7 = "SELECT * FROM image ORDER BY image_id DESC";
 $results7 = mysqli_query($db, $query7);
+
+
+/////////// UPLOAD IMAGES ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+if (isset($_POST['add_image'])) {
+  // receive all input values from the form
+  $image_upload = mysqli_real_escape_string($db, $_POST['image_upload']);
+
+  $query = "SELECT * FROM image WHERE name='$image_upload' LIMIT 1";
+  $result = mysqli_query($db, $query);
+  $row = mysqli_fetch_assoc($result);
+  
+  if ($row) { 
+    if ($row['name'] === $image_upload) {
+      array_push($errors, "Slika s tim imenom već postoji");
+    }
+  }
+ 
+  if (empty($image_upload)) { array_push($errors, "Ime slike obavezno!"); }
+
+  
+  if (count($errors) == 0) {
+    $query = "INSERT INTO image (name) VALUES ('$image_upload')";
+    mysqli_query($db, $query);
+    header('location: admin.php');
+  }
+
+ 
+}
 
 
 ?>
@@ -182,6 +216,16 @@ width: 100%;
 }
 }
 #myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+#myFilter {
   background-image: url('/css/searchicon.png'); /* Add a search icon to input */
   background-position: 10px 12px; /* Position the search icon */
   background-repeat: no-repeat; /* Do not repeat the icon image */
@@ -268,7 +312,7 @@ img {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" target="_blank" href="index.php">p.s. read</a>
+      <a class="navbar-brand" target="_blank" href="index.php">P_S_READ</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -433,7 +477,7 @@ echo"
 <label>Ime: " . $row6['name'] . "</label>
 </div>
 <div class='form-group'>
-<label>Email: <a href=mailto:" . $row6['email'] . ">" . $row6['email'] . "</a></label>
+<label>Email: <a style='color:lightblue;text-decoration:underline;' href=mailto:" . $row6['email'] . ">" . $row6['email'] . "</a></label>
 </div>
 <div class='form-group'>
 <label>Poruka:</label>
@@ -470,10 +514,10 @@ echo"
 <form method="post">
     <div class="form-group">
     <label>Ime slike</label>
-  	  <input placeholder="Unesi ime slike" type="text" name="image" class="form-control" value="<?php echo "" . $row2['image'] . ""?>">
+  	  <input placeholder="Unesi ime slike" type="text" name="image_upload" class="form-control" value="<?php echo $image; ?>"?>">
     </div>
     <div class="form-group">
-    <button type="submit" class="btn" name="edit">Dodaj</button>
+    <button type="submit" class="btn" name="add_image">Dodaj sliku</button>
   	</div>
 </form>
 </div>
@@ -483,7 +527,7 @@ echo"
 <div id="show_galery" class="container">
 <h2>Galerija</h2>
   <hr>
-  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Pretraži slike...">
+  <input type="text" id="myFilter" onkeyup="myFunctionFilter()" placeholder="Pretraži slike...">
   <?php
   echo "
   <div id='myItems' class='row'>
@@ -494,15 +538,10 @@ echo"
     
     <div class='column'>
       <div class='card'>
-          
-          <img src='images/" . $row7['name'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
-          
-        <div class='container'>
           <div class='card_container'>
-              <h4 class='card-title' style='text-align: center;'><b>" . $row7['name'] . "</b></h4>
-             
+            <img src='images/" . $row7['name'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
+            <h4 class='card-title' style='text-align: center;'><b>" . $row7['name'] . "</b></h4>
           </div>
-        </div>
       </div>
     </div>  
   ";
@@ -510,17 +549,6 @@ echo"
 echo"</div>";
 ?>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 
@@ -756,6 +784,22 @@ function show_add() {
       }
     }
   }
+}
+
+function myFunctionFilter() {
+    var input, filter, cards, cardContainer, h4, title, i;
+    input = document.getElementById("myFilter");
+    filter = input.value.toUpperCase();
+    cardContainer = document.getElementById("myItems");
+    cards = cardContainer.getElementsByClassName("card");
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].querySelector(".card_container");
+        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
 }
 </script>
 <!-- </body> -->

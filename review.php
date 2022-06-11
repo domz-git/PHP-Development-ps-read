@@ -11,9 +11,10 @@ $db = mysqli_connect('localhost', 'root', '', 'psread');
 $name="";
 $email="";
 $message="";
-
-  $query = "SELECT * FROM post ORDER BY post_id DESC";
-  $results = mysqli_query($db, $query);
+$id = $_GET['id'];
+$query = "SELECT * FROM post WHERE post_id = $id";
+$results = mysqli_query($db, $query);
+$row = mysqli_fetch_array($results);
 ?>
 
 
@@ -50,7 +51,7 @@ body, html {
 
 /* First image (Logo. Full height) */
 .bgimg-1 {
-  background-image: url('images/image2.jpg');
+  background-image: url('images/<?php echo"" . $row['image'] .  "";?>.jpg');
   min-height: 40%;
   background-color: rgba(255, 255, 255, 0.3);
   background-blend-mode: lighten
@@ -247,16 +248,14 @@ p{
 </div>
 
 <div class="w3-content w3-container w3-padding-64" id="about">
-  <h3 class="w3-center">NASLOV</h3>
+  <h3 class="w3-center"><?php echo"" . $row['title'] .  "";?></h3>
   <?php
-echo"<pre>hdfjghfdkjghjkdfhgfdkg
-
-jkghdfjkghjfdkghdkjfg
-jgfhkjfdhgkjdfg
-
-
-fdkgjhkdfghkjfd</pre>"
-
+   
+echo"
+<p style='text-align: center;'><strong>" . $row['date'] . "</strong></p>
+<pre>" . $row['content'] . "</pre>
+<pre>" . $row['review'] . "</pre>
+"
 ?>
 
 
@@ -265,16 +264,16 @@ fdkgjhkdfghkjfd</pre>"
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <a href="#home" class="w3-button w3-light-grey" style="text-decoration: none;"><i class="fa fa-arrow-up w3-margin-right"></i>Na vrh</a>
   <div class="w3-xlarge w3-section">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <a href="https://www.instagram.com/p_s_read/"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+    <a href="https://www.instagram.com/p_s_read/"><i style="color:white;" class="fa fa-instagram w3-hover-opacity"></i></a>
     <i class="fa fa-snapchat w3-hover-opacity"></i>
     <i class="fa fa-pinterest-p w3-hover-opacity"></i>
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
   </div>
-  <p>Made by <a href="https://github.com/domz-git" target="_blank" style="text-decoration: none;"class="w3-hover-text-green">Dominik Filipović</a></p>
+  <p>Made by <a href="https://github.com/domz-git" target="_blank" style="text-decoration: none;color:blue;"class="w3-hover-opacity"><i class="fa fa-github w3-hover-opacity"></i> Dominik Filipović</a></p>
 </footer>
  
 <script>
@@ -307,26 +306,6 @@ function toggleFunction() {
     } else {
         x.className = x.className.replace(" w3-show", "");
     }
-}
-
-
-function myFunctionFilter() {
-    var input, filter, cards, cardContainer, h4, title, i;
-    input = document.getElementById("myFilter");
-    filter = input.value.toUpperCase();
-    cardContainer = document.getElementById("myItems");
-    cards = cardContainer.getElementsByClassName("card");
-    for (i = 0; i < cards.length; i++) {
-        title = cards[i].querySelector(".card_container");
-        if (title.innerText.toUpperCase().indexOf(filter) > -1) {
-            cards[i].style.display = "";
-        } else {
-            cards[i].style.display = "none";
-        }
-    }
-}
-function fu() {
-  alert("Tvoja narudžba je zaprimljena!\n\nOčekuj naš odgovor u kratkom roku.\n\nDo tad, sretno čitanje!");
 }
 </script>
 <!-- </body> -->

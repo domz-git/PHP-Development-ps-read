@@ -224,11 +224,15 @@ img {
   width: 100%;
   outline: none;
   }
+  #message_name{
+    margin-bottom:8px;
+  }
 }
 p{
   color: lightslategrey;
   font-size: 13px;
 }
+
 </style>
 </head>
 <body>
@@ -271,7 +275,7 @@ p{
     
     <div class='column'>
       <div class='card'>
-          <a href=overview.php?id=".$row['post_id'].">
+          <a href=review.php?id=".$row['post_id'].">
           <img src='images/" . $row['image'] .  ".jpg' alt='Avatar' style='height:200px;width:100%;object-fit: cover;'>
           </a>
         <div class='container'>
@@ -279,7 +283,7 @@ p{
               <h4 class='card-title' style='text-align: center;'><b>" . $row['title'] . "</b></h4>
               <p style='text-align: center;'><strong>" . $row['date'] . "</strong></p>
               <pre>" . $row['content'] . "</pre>
-              <a href=overview.php?id=".$row['post_id']." id='nava'><button class='w3-button w3-black w3-right w3-section'>
+              <a href=review.php?id=".$row['post_id']." id='nava'><button class='w3-button w3-black w3-right w3-section'>
               <i class='fa fa-paper-plane'></i> PROČITAJ VIŠE
             </button></a>
           </div>
@@ -298,23 +302,22 @@ echo"</div>";
 
 <!-- Container (Contact Section) -->
 <div class="w3-content w3-container w3-padding-64" id="contact">
-  <p class="w3-center"><em>Kontaktiraj nas!</em></p>
-
+<h3 class="w3-center">KONTAKT</h3>
+  <p class="w3-center"><em>Javi nam se!</em></p>
   <div class="w3-row w3-padding-32 w3-section">
     <div class="w3-col m4 w3-container">
-      <img src="images/contact.jpg" class="w3-image w3-round" style="width:100%">
+      <img src="images/contact.jpg" class="w3-image w3-round" style="width:100%;margin-top:16px;">
     </div>
     <div class="w3-col m8 w3-panel">
       <form method="post">
-        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+        <div  class="w3-row-padding" style="margin:0 -16px 8px -16px">
           <div class="w3-half">
-            <input class="w3-input w3-border" type="text" placeholder="Ime" name="name"required name="Name">
+            <input class="w3-input w3-border" type="text" placeholder="Ime" name="name"required name="Name" id="message_name">
           </div>
           <div class="w3-half">
             <input class="w3-input w3-border" type="email" placeholder="Email" name="email"required name="Email">
           </div>
         </div>
-        
         <textarea class="w3-input w3-border" type="text" placeholder="Ovdje upiši svoju poruku" name ="message" required name="Message" cols="30" rows="10"></textarea>
         <button class="w3-button w3-black w3-right w3-section" onclick="fu()" name="send" type="submit">
           <i class="fa fa-paper-plane"></i> POŠALJI
@@ -326,16 +329,16 @@ echo"</div>";
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <a href="#home" class="w3-button w3-light-grey" style="text-decoration: none;"><i class="fa fa-arrow-up w3-margin-right"></i>Na vrh</a>
   <div class="w3-xlarge w3-section">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <a href="https://www.instagram.com/p_s_read/"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+    <a href="https://www.instagram.com/p_s_read/"><i style="color:white;" class="fa fa-instagram w3-hover-opacity"></i></a>
     <i class="fa fa-snapchat w3-hover-opacity"></i>
     <i class="fa fa-pinterest-p w3-hover-opacity"></i>
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
   </div>
-  <p>Made by <a href="https://github.com/domz-git" target="_blank" style="text-decoration: none;"class="w3-hover-text-green">Dominik Filipović</a></p>
+  <p>Made by <a href="https://github.com/domz-git" target="_blank" style="text-decoration: none;color:blue;"class="w3-hover-opacity"><i class="fa fa-github w3-hover-opacity"></i> Dominik Filipović</a></p>
 </footer>
  
 <script>

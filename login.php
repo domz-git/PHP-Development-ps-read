@@ -42,7 +42,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V2</title>
+	<title>P_S_READ LOGIN</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -75,10 +75,10 @@ if (session_status() == PHP_SESSION_NONE) {
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" onsubmit="return validateFormLogin()" method="post" action="login.php">
 				<?php include('errors.php'); ?>
-					<span class="login100-form-title p-b-26">
+					<span style="margin-top:-50px" class="login100-form-title p-b-26">
 						Dobrodošla
 					</span>
-					<span class="login100-form-title p-b-48">
+					<span style="margin-bottom:-40px;margin-top:-20px;"class="login100-form-title p-b-48">
 						<i class="zmdi zmdi-font"></i>
 					</span>
 
@@ -95,7 +95,7 @@ if (session_status() == PHP_SESSION_NONE) {
 						<span class="focus-input100" data-placeholder="Lozinka"></span>
 					</div>
 
-					<div class="container-login100-form-btn">
+					<div style="margin-top:-30px" class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button type="submit" name="user_login" class="login100-form-btn">
@@ -106,7 +106,7 @@ if (session_status() == PHP_SESSION_NONE) {
 						<img src="images/image.png" alt="" style="height:auto; width: 200px;margin-left:30px;">
 					</div>
 
-					<div class="text-center p-t-115">
+					<div style="margin-top:-120px" class="text-center p-t-115">
 						<span class="txt1">
 							Vrati se na naslovnu stranicu:
 						</span>
